@@ -1,4 +1,4 @@
-package com.sysc4806.project.security.security.jwt;
+package com.sysc4806.project.security.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

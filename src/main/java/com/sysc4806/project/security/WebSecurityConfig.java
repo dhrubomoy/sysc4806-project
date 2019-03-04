@@ -1,4 +1,4 @@
-package com.sysc4806.project.security.security;
+package com.sysc4806.project.security;
 
 import com.sysc4806.project.security.jwt.JwtAuthEntryPoint;
 import com.sysc4806.project.security.jwt.JwtAuthTokenFilter;

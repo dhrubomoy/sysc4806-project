@@ -1,4 +1,4 @@
-package com.sysc4806.project.security.security.jwt;
+package com.sysc4806.project.security.jwt;
 
 import com.sysc4806.project.security.services.UserPrinciple;
 import io.jsonwebtoken.*;

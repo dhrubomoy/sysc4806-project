@@ -1,4 +1,4 @@
-package com.sysc4806.project.security.security.services;
+package com.sysc4806.project.security.services;
 
 import com.sysc4806.project.model.User;
 import com.sysc4806.project.repository.UserRepository;
