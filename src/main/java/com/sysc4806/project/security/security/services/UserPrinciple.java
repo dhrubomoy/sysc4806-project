@@ -1,4 +1,4 @@
-package com.sysc4806.project.Security.services;
+package com.sysc4806.project.security.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sysc4806.project.model.User;

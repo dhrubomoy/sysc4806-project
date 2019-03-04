@@ -1,6 +1,6 @@
-package com.sysc4806.project.Security.jwt;
+package com.sysc4806.project.security.security.jwt;
 
-import com.sysc4806.project.Security.services.UserPrinciple;
+import com.sysc4806.project.security.services.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

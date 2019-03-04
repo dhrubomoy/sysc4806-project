@@ -1,8 +1,8 @@
-package com.sysc4806.project.Security;
+package com.sysc4806.project.security.security;
 
-import com.sysc4806.project.Security.jwt.JwtAuthEntryPoint;
-import com.sysc4806.project.Security.jwt.JwtAuthTokenFilter;
-import com.sysc4806.project.Security.services.UserDetailsServiceImpl;
+import com.sysc4806.project.security.jwt.JwtAuthEntryPoint;
+import com.sysc4806.project.security.jwt.JwtAuthTokenFilter;
+import com.sysc4806.project.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

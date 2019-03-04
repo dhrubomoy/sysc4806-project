@@ -1,6 +1,6 @@
-package com.sysc4806.project.Security.jwt;
+package com.sysc4806.project.security.security.jwt;
 
-import com.sysc4806.project.Security.services.UserDetailsServiceImpl;
+import com.sysc4806.project.security.services.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
