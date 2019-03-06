@@ -31,7 +31,7 @@ Article Submitter submits Article (some attachment, any format is ok). The Edito
 
 ### Diagrams
 
-#### UML Class Diagram
+#### UML Class Diagram for the Model
 
 <img width="590" alt="uml" src="https://user-images.githubusercontent.com/14824605/53857992-5550f200-3fa6-11e9-8e2f-0293588f719c.PNG">
 
