@@ -3,7 +3,7 @@ jdk:
 - oraclejdk8
 deploy:
   on:
-    branch: release
+    branch: integrate_ui
   provider: heroku
   api-key:
     secure: $HEROKU_API_KEY
