@@ -17,6 +17,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -56,6 +57,7 @@ public class ArticleController {
                 .orElseThrow(() -> new RuntimeException("Could not find Reviewer with id="+reviewerInfo.getReviewerId()));
         article.setReviewer(reviewer);
         SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = new Date();
         try {
             date = formatter.parse(reviewerInfo.getReviewDeadline());

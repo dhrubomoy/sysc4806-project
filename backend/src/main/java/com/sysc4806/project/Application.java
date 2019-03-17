@@ -11,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 public class Application {
 
@@ -30,14 +32,12 @@ public class Application {
     ) {
         return (args) -> {
             // Create Submitter
-
             Submitter submitter1 = submitterRepository.save(new Submitter("Vesta Nichols", "submitter1", mockPassword));
             Submitter submitter2 = submitterRepository.save(new Submitter("Thomas Mathews", "submitter2", mockPassword));
 
             // Create articles
             createArticle(articleRepository, submitterRepository, submitter1, new Article("Title Article 1", "Text Article 1 by submitter1"));
             createArticle(articleRepository, submitterRepository, submitter1, new Article("Title Article 2", "Text Article 2 By submitter1"));
-//            createArticle(articleRepository, submitterRepository, submitter1, new Article("Title Article 3", "Text Article 3 By submitter1 "));
             createArticle(articleRepository, submitterRepository, submitter2, new Article("Title Article 1", "Text Article 1 by submitter2"));
             createArticle(articleRepository, submitterRepository, submitter2, new Article("Title Article 2", "Text Article 2 By submitter2"));
 
