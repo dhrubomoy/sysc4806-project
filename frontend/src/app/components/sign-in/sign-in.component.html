@@ -1,0 +1,37 @@
+<div *ngIf="isSignedIn; else signedOut">
+  <app-home></app-home>
+</div>
+  
+<ng-template #signedOut>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col">
+      <nb-card>
+        <nb-card-header>Sign In</nb-card-header>
+        <nb-card-body>
+          <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+              <div class="error" *ngIf="f.submitted && username.invalid">
+                <div *ngIf="username.errors.required">Username is required</div>
+              </div>
+              <input type="text" nbInput fullWidth  placeholder="Username" name="username" 
+                [(ngModel)]="form.username" #username="ngModel" required>
+              <div class="error" *ngIf="f.submitted && password.invalid">
+                <div *ngIf="password.errors.required">Password is required</div>
+                <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+              </div>
+              <input type="password" nbInput fullWidth placeholder="Password" name="password" 
+                [(ngModel)]="form.password" #password="ngModel" required minlength="6">
+              <div class="offset-sm-4 col-sm-8">
+                <button nbButton outline status="info">Sign In</button>
+              </div>
+              <br>
+              <div *ngIf="f.submitted && isSignInFailed" class="error">
+                <strong>Sign in failed:</strong> {{errorMessage}}
+              </div>          
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</ng-template>

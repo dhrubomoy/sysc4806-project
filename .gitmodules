@@ -1,4 +1,0 @@
-[submodule "frontend"]
-	path = frontend
-	url = https://github.com/dhrubomoy/sysc4806-project-frontend.git
-	branch = backend_integration

@@ -1,0 +1,41 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Submit New Article</nb-card-header>
+    <nb-card-body class="exoFont">
+      <input class="titleInput" type="text" fullWidth nbInput placeholder="Title"
+        [(ngModel)]="articleTitle" #ctrl="ngModel" required>
+      <textarea nbInput fullWidth rows="10" placeholder="Description"
+        [(ngModel)]="articleText" #ctrl="ngModel" required>
+      </textarea>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="offset-md-4 col-md-4">
+        <button nbButton (click)="addArticle() && ref.close()">Submit</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+<nb-card>
+  <nb-card-body>
+      <div class="row">
+        <div class="offset-md-5 col-md">
+          <button nbButton (click)="open(dialog)">Submit New Article</button>
+        </div>
+      </div>
+  </nb-card-body>
+</nb-card>
+
+
+<nb-card>
+  <nb-card-header>Submitted Articles</nb-card-header>
+  <nb-card-body>
+    <span *ngIf="submittedArticles.length>0">
+      <ng2-smart-table [settings]="settings" [source]="source">
+      </ng2-smart-table>
+    </span>
+    <span *ngIf="submittedArticles.length===0">
+        You haven't submitted any articles yet.
+      </span>
+  </nb-card-body>
+</nb-card>
+  

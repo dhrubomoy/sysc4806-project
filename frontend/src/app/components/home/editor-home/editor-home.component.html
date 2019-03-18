@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>Submitted Articles</nb-card-header>
+  <nb-card-body>
+    <span *ngIf="articlesData.length>0">
+      <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEditClick($event, dialog)">
+      </ng2-smart-table>
+    </span>
+    <span *ngIf="articlesData.length===0">
+        No article found!
+      </span>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+  <edit-article
+    [article]=data.selectedArticle
+    [allArticles]=data.allArticles
+    [reviewers]="reviewers">
+  </edit-article>
+</ng-template>

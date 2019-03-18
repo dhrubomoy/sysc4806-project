@@ -1,0 +1,23 @@
+<nb-layout>
+
+  <nb-layout-header fixed>
+    <h3 class="navItem" (click)="router.navigateByUrl('/home')">Article Review System</h3>
+    <span *ngIf="isSignedIn" class="navItem" (click)="router.navigateByUrl('/home')">Home</span>
+    <span *ngIf="!isSignedIn" class="navItem" (click)="router.navigateByUrl('/signin')">Sign In</span>
+    <span *ngIf="!isSignedIn" class="navItem signUpBtn" (click)="router.navigateByUrl('/signup')">Sign Up</span>
+    <nb-user *ngIf="isSignedIn" name="{{token.getUsername()}}"  class="navItem"
+      title="{{authority}}"
+      [nbContextMenu]="items"
+      nbContextMenuTag="my-context-menu">
+    </nb-user>
+  </nb-layout-header>
+
+  <nb-layout-column>
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+
+  <nb-layout-footer fixed>
+    @SYSC4806 Project, Winter 2019
+  </nb-layout-footer>
+
+</nb-layout>

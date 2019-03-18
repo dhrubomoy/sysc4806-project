@@ -1,0 +1,12 @@
+<div *ngIf="info.token; else signedOut">
+  <div *ngIf="info.authorities.includes('ROLE_SUBMITTER')">
+    <submitter-home></submitter-home>
+  </div>
+  <div *ngIf="info.authorities.includes('ROLE_EDITOR')">
+    <editor-home></editor-home>
+  </div>
+</div>
+ 
+<ng-template #signedOut>
+  <app-sign-up></app-sign-up>
+</ng-template>

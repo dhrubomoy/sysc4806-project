@@ -1,0 +1,55 @@
+<div *ngIf="isSignedUp; else signUpForm">
+  <div class="row">
+    <div class="offset-md-3 col-md-6">Congrats! Sign up successful. Please sign in!</div>
+  </div>
+  <br><br>
+  <app-sign-in></app-sign-in>
+</div>
+  
+<ng-template #signUpForm>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col">
+      <nb-card>
+        <nb-card-header>Sign Up</nb-card-header>
+        <nb-card-body>
+          <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+              <div class="error" *ngIf="f.submitted && name.invalid">
+                <div *ngIf="name.errors.required">Name is required</div>
+              </div>
+              <input type="text" nbInput fullWidth placeholder="Name" name="name" 
+                [(ngModel)]="form.name" #name="ngModel" required>
+              <div class="error" *ngIf="f.submitted && username.invalid">
+                <div *ngIf="username.errors.required">Username is required</div>
+              </div>
+              <input type="text" nbInput fullWidth  placeholder="Username" name="username" 
+                [(ngModel)]="form.username" #username="ngModel" required>
+              <div class="error" *ngIf="f.submitted && password.invalid">
+                <div *ngIf="password.errors.required">Password is required</div>
+                <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+              </div>
+              <input type="password" nbInput fullWidth placeholder="Password" name="password" 
+                [(ngModel)]="form.password" #password="ngModel" required minlength="6">
+              <div class="error" *ngIf="f.submitted && role.invalid">
+                <div *ngIf="role.errors.required">Role is required</div>
+              </div>
+              <nb-select placeholder="Select Role" status="primary" 
+              [(ngModel)]="form.role" name="role" #role="ngModel" required>
+                <nb-option value="submitter" selected>Submitter</nb-option>
+                <nb-option value="reviewer">Reviewer</nb-option>
+                <nb-option value="editor">Editor</nb-option>
+              </nb-select>
+              <div class="offset-sm-4 col-sm-8">
+                <button nbButton outline status="info">Sign Up</button>
+              </div>
+              <br>
+              <div *ngIf="f.submitted && isSignUpFailed" class="error">
+                <strong>Sign up failed:</strong> {{errorMessage}}
+              </div>          
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</ng-template>

@@ -1,0 +1,31 @@
+@import 'themes';
+@import '~@nebular/bootstrap/styles/globals';
+@import '~@nebular/theme/styles/globals';
+
+@include nb-install() {
+  @include nb-theme-global();
+  @include nb-bootstrap-global();
+};
+/* You can add global styles to this file, and also import other style files */
+
+[dir=ltr] .nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .pagination li {
+  padding: 12px 0px 12px 0px;
+}
+
+li.ng2-smart-page-item.page-item.active {
+  background-color: #40DC7E;
+}
+
+.nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .pagination li.active a, .nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .pagination li.active a:hover, .nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .pagination li.active a:focus, .nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .pagination li.active > span, .nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .pagination li.active > span:hover, .nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .pagination li.active > span:focus {
+  color: #ffffff;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.nb-theme-default ng2-smart-table nav.ng2-smart-pagination-nav .ng2-smart-pagination .page-item.disabled .page-link {
+  background-color: transparent;
+}
+
+nb-calendar-day-picker.medium {
+  font-family: 'Exo';
+}

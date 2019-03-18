@@ -1,0 +1,29 @@
+<nb-card>
+  <nb-card-header>Edit Article</nb-card-header>
+  <nb-card-body class="edit-article-body">
+    <div><strong>ID:</strong> {{ article.id }}</div><br>
+    <div><strong>Title:</strong> {{ article.title }}</div><br>
+    <div><strong>Description:</strong> {{ article.text }}</div><br><br>
+    <div>
+      <strong>Reviewer:</strong>
+      <nb-select status="primary"  
+          [(ngModel)]="currentReviewerId" class="reviewer-nb-select">
+        <nb-option *ngFor="let reviewer of reviewers"
+          class="reviewer-nb-option"
+          value="{{reviewer.id}}">
+          {{reviewer.username}}
+        </nb-option>
+      </nb-select>
+      <div *ngIf="reviewerInputError">{{reviewerInputError}}</div>
+    </div><br><br>
+    <div>
+      <strong>Set Review Deadline:</strong><br>
+      <input class="date-picker-input" nbInput placeholder="Form Picker" fullWidth [nbDatepicker]="formpicker" [(ngModel)]="reviewDeadline">
+      <nb-datepicker #formpicker></nb-datepicker>
+      <div *ngIf="reviewDeadlineError">{{reviewDeadlineError}}</div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton (click)="updateArticle()">Update</button>
+  </nb-card-footer>
+</nb-card>
