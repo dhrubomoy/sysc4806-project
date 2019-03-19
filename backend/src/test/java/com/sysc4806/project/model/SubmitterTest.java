@@ -9,7 +9,7 @@ public class SubmitterTest {
         String name = "John Doe";
         String userName = "John.Doe";
         String password = "password";
-        Reviewer submitter = new Reviewer(name, userName, password);
+        Submitter submitter = new Submitter(name, userName, password);
 
         //create a sample article
         String articleTitle = "Board Green lights One-Tier State Change";
@@ -22,6 +22,6 @@ public class SubmitterTest {
 
         //Add the article to be reviewed by this reviewer
         submitter.addSubmittedArticles(sampleArticle);
-        assert(submitter.getAssignedArticles().contains(sampleArticle));
+        assert(submitter.getSubmittedArticles().contains(sampleArticle));
     }
 }

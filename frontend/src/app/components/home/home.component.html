@@ -5,6 +5,9 @@
   <div *ngIf="info.authorities.includes('ROLE_EDITOR')">
     <editor-home></editor-home>
   </div>
+  <div *ngIf="info.authorities.includes('ROLE_REVIEWER')">
+    <reviewer-home></reviewer-home>
+  </div>
 </div>
  
 <ng-template #signedOut>

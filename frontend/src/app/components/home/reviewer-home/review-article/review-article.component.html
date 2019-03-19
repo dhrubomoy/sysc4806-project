@@ -1,0 +1,17 @@
+<nb-card>
+  <nb-card-header>Review Article</nb-card-header>
+  <nb-card-body class="review-article-body">
+    <div><strong>Title:</strong> {{ article.title }}</div><br>
+    <div><strong>Description:</strong> {{ article.text }}</div><br>
+    <div>
+      <strong>Write Review:</strong>
+      <textarea nbInput fullWidth placeholder="Review..."
+        rows="10" class="review-textarea"
+        [(ngModel)]="reviewString"
+      ></textarea>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton (click)="updateArticle()">Update</button>
+  </nb-card-footer>
+</nb-card>

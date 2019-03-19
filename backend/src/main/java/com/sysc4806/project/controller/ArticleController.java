@@ -2,6 +2,7 @@ package com.sysc4806.project.controller;
 
 import com.sysc4806.project.message.request.ReviewerForArticle;
 import com.sysc4806.project.model.Article;
+import com.sysc4806.project.model.ReviewStatus;
 import com.sysc4806.project.model.Reviewer;
 import com.sysc4806.project.model.Submitter;
 import com.sysc4806.project.repository.ArticleRepository;
@@ -65,6 +66,18 @@ public class ArticleController {
 //            "Error parsing date: " + e.getMessage();
         }
         article.setReviewDeadline(date);
+        article.setReviewStatus(ReviewStatus.IN_REVIEW);
+        reviewer.addAssginedArticles(article);
+        return articleRepository.save(article);
+    }
+
+    @PutMapping("/api/articles/{id}/setReview")
+    @PreAuthorize("hasRole('REVIEWER')")
+    public Article reviewArticle(@PathVariable(value = "id") Long articleId,
+                                             @Valid @RequestBody String review) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Could not find Article with id="+articleId));
+        article.setReview(review);
         return articleRepository.save(article);
     }
 
@@ -74,6 +87,14 @@ public class ArticleController {
         String username = principal.getName();
         Optional<Submitter> submitter = submitterRepository.findByUsername(username);
         return submitter.get().getSubmittedArticles();
+    }
+
+    @GetMapping("/api/reviewer/articles")
+    @PreAuthorize("hasRole('REVIEWER')")
+    public List<Article> getArticlesForReviewer(Principal principal) {
+        String username = principal.getName();
+        Optional<Reviewer> reviewer = reviewerRepository.findByUsername(username);
+        return reviewer.get().getAssignedArticles();
     }
 
 }

@@ -11,8 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.TimeZone;
-
 @SpringBootApplication
 public class Application {
 
@@ -54,6 +52,5 @@ public class Application {
         article.setSubmitter(submitter);
         submitter.addSubmittedArticles(article);
         submitterRepository.save(submitter);
-//        articleRepository.save(article);
     }
 }

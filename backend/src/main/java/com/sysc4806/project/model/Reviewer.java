@@ -29,7 +29,7 @@ public class Reviewer extends User {
         this.assignedArticles = assignedArticles;
     }
 
-    public void addSubmittedArticles(Article article) {
+    public void addAssginedArticles(Article article) {
         this.assignedArticles.add(article);
     }
 }

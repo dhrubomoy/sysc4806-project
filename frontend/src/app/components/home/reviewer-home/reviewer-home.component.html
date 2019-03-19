@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>Assigned Articles</nb-card-header>
+  <nb-card-body>
+    <span *ngIf="articlesData.length>0">
+      <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEditClick($event, dialog)">
+      </ng2-smart-table>
+    </span>
+    <span *ngIf="articlesData.length===0">
+        No articles assigned to you for review!
+      </span>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+  <review-article
+    [article]=data.selectedArticle
+    [allArticles]=data.allArticles
+    (onDlgClose)="dlgClosed(ref)">
+  </review-article>
+</ng-template>

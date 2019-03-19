@@ -21,7 +21,7 @@ public class ReviewerTest {
         Article sampleArticle = new Article(articleTitle, articleText);
 
         //Add the article to be reviewed by this reviewer
-        reviewer.addSubmittedArticles(sampleArticle);
+        reviewer.addAssginedArticles(sampleArticle);
         assert(reviewer.getAssignedArticles().contains(sampleArticle));
     }
 }
