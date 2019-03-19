@@ -5,6 +5,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { ArticleUtil } from '../../../utils/article-util';
 import { NbDialogService } from '@nebular/theme';
 import { UserService } from 'src/app/services/user.service';
+import { ReviewViewComponent } from './review-view/review-view-component';
+
 
 @Component({
   selector: 'editor-home',
@@ -17,67 +19,7 @@ export class EditorHomeComponent implements OnInit {
   private articles: Article[];
   private reviewers: Reviewer[];
   source: LocalDataSource = new LocalDataSource();
-  private settings = {
-    mode: 'external',
-    actions: {
-      add: false,
-      delete: false,
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-    },
-    columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
-      title: {
-        title: 'Title',
-        type: 'string',
-      },
-      submitter: {
-        title: 'Submitter',
-        type: 'string',
-      },
-      reviewer: {
-        title: 'Reviewer',
-        type: 'string',
-      },
-      reviewDeadline: {
-        title: 'Review Deadline',
-        type: 'string',
-        compareFunction:(direction: any, a: any, b: any) => {
-          let aTime: number, bTime: number;
-          if(typeof a === 'string') {
-            if(a === 'Not Set') {
-              return direction;
-            } else {
-              aTime = new Date(a).getTime();
-            }
-          }
-          if(typeof b === 'string') {
-            if(b === 'Not Set') {
-              return -1*direction;
-            } else {
-              bTime = new Date(b).getTime();
-            }
-          }
-          if (aTime < bTime) {
-            return -1 * direction;
-           }
-           if (aTime > bTime) {
-             return direction;
-           }
-           return 0;
-        }
-      },
-      status: {
-        title: 'Status',
-        type: 'string',
-        filter: {},
-      },
-    },
-  };
+  private settings: any;
 
   constructor(
     private articleService: ArticleService,
@@ -87,6 +29,79 @@ export class EditorHomeComponent implements OnInit {
 
   ngOnInit() {
     this.updateEditorHome();
+    let _this = this;
+    this.settings = {
+      mode: 'external',
+      actions: {
+        add: false,
+        delete: false,
+      },
+      edit: {
+        editButtonContent: '<i class="nb-edit"></i>',
+      },
+      columns: {
+        seeReview: {
+          title: 'See Review',
+          filter: false,
+          type: 'custom',
+          renderComponent: ReviewViewComponent,
+          onComponentInitFunction(instance: any) {
+            instance.updateTable.subscribe(() => {
+              _this.updateEditorHome();
+            });
+          }
+        },
+        id: {
+          title: 'ID',
+          type: 'number',
+        },
+        title: {
+          title: 'Title',
+          type: 'string',
+        },
+        submitter: {
+          title: 'Submitter',
+          type: 'string',
+        },
+        reviewer: {
+          title: 'Reviewer',
+          type: 'string',
+        },
+        reviewDeadline: {
+          title: 'Review Deadline',
+          type: 'string',
+          compareFunction:(direction: any, a: any, b: any) => {
+            let aTime: number, bTime: number;
+            if(typeof a === 'string') {
+              if(a === 'Not Set') {
+                return direction;
+              } else {
+                aTime = new Date(a).getTime();
+              }
+            }
+            if(typeof b === 'string') {
+              if(b === 'Not Set') {
+                return -1*direction;
+              } else {
+                bTime = new Date(b).getTime();
+              }
+            }
+            if (aTime < bTime) {
+              return -1 * direction;
+             }
+             if (aTime > bTime) {
+               return direction;
+             }
+             return 0;
+          }
+        },
+        status: {
+          title: 'Status',
+          type: 'string',
+          filter: {},
+        },
+      },
+    };
   }
 
   updateEditorHome() {
@@ -122,6 +137,7 @@ export class EditorHomeComponent implements OnInit {
         this.articles = data;
         this.articlesData = this.articles.map(a => {
           return {
+            seeReview: a.review ? a.review : null,
             id: a.id,
             title: a.title,
             text: a.text,

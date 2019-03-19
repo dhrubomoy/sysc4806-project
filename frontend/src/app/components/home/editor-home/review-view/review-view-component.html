@@ -1,0 +1,25 @@
+<button nbButton shape="round" [disabled]="!value"
+    size="small" status="info" (click)="open(dialog)">
+    Review
+</button>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card>
+    <nb-card-header>Update Article</nb-card-header>
+    <nb-card-body class="review-view-body">
+        <strong>Review:</strong><br>
+        <div class="review-data">{{ data }}</div>
+        <strong>Set Status:</strong>
+        <nb-radio-group [(ngModel)]="finalReviewStatus">
+            <nb-radio
+                *ngFor="let option of reviewStatusOptions"
+                [value]="option.value">
+                {{ option.label }}
+            </nb-radio>
+        </nb-radio-group>
+    </nb-card-body>
+    <nb-card-footer>
+        <button nbButton (click)="update(ref)">Update</button>
+    </nb-card-footer>
+    </nb-card>
+</ng-template>

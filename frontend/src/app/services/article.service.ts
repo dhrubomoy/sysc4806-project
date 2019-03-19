@@ -14,6 +14,7 @@ export class ArticleService {
   private updateReviewerForArticle = CONSTANTS.ARTICLE_URL.SET_REVIEWER_FOR_ARTICLE;
   private getAssignedArticlesForReivewer = CONSTANTS.ARTICLE_URL.GET_ARTICLES_FOR_REVIEWER;
   private reviewArticleUrl = CONSTANTS.ARTICLE_URL.REVIEW_ARTICLE;
+  private acceptOrRejectUrl = CONSTANTS.ARTICLE_URL.ACCEPT_REJECT_ARTICLE;
  
   constructor(private http: HttpClient) {}
  
@@ -43,5 +44,11 @@ export class ArticleService {
     let regex = /{id}/gi;
     let url: string = this.reviewArticleUrl.replace(regex, articleId.toString());
     return this.http.put<Article>(url, review);
+  }
+
+  acceptOrRejectArticle(status: String, articleId: number): Observable<Article> {
+    let regex = /{id}/gi;
+    let url: string = this.acceptOrRejectUrl.replace(regex, articleId.toString());
+    return this.http.put<Article>(url, status);
   }
 }
