@@ -21,6 +21,8 @@ export const CONSTANTS = {
         SUBMITTER_LIST_ARTICLE: URL+"/api/submitter/articles",
         ALL_ARTICLE: URL+"/api/articles",
         SET_REVIEWER_FOR_ARTICLE: URL+"/api/articles/{id}/setReviewInfo",
+        REVIEW_ARTICLE: URL+"/api/articles/{id}/setReview",
+        GET_ARTICLES_FOR_REVIEWER: URL+"/api/reviewer/articles",
     },
 
     ROLES: {

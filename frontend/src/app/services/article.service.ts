@@ -12,6 +12,8 @@ export class ArticleService {
   private getSubmittedArticlesUrl = CONSTANTS.ARTICLE_URL.SUBMITTER_LIST_ARTICLE;
   private getAllArticlesUrl = CONSTANTS.ARTICLE_URL.ALL_ARTICLE;
   private updateReviewerForArticle = CONSTANTS.ARTICLE_URL.SET_REVIEWER_FOR_ARTICLE;
+  private getAssignedArticlesForReivewer = CONSTANTS.ARTICLE_URL.GET_ARTICLES_FOR_REVIEWER;
+  private reviewArticleUrl = CONSTANTS.ARTICLE_URL.REVIEW_ARTICLE;
  
   constructor(private http: HttpClient) {}
  
@@ -23,14 +25,23 @@ export class ArticleService {
     return this.http.get<Article[]>(this.getSubmittedArticlesUrl);
   }
 
+  getArticlesForReviewer(): Observable<Article[]> {
+    return this.http.get<Article[]>(this.getAssignedArticlesForReivewer);
+  }
+
   getAllArticles(): Observable<Article[]> {
     return this.http.get<Article[]>(this.getAllArticlesUrl);
   }
 
   setReviewerForArticle(reviewerInfo: ReviewerInfo, articleId: number): Observable<Article> {
     let regex = /{id}/gi;
-    let url: string = this.updateReviewerForArticle.replace(regex, articleId.toString())
-    console.log(url);
+    let url: string = this.updateReviewerForArticle.replace(regex, articleId.toString());
     return this.http.put<Article>(url, reviewerInfo);
+  }
+
+  reviewArticle(review: String, articleId: number): Observable<Article> {
+    let regex = /{id}/gi;
+    let url: string = this.reviewArticleUrl.replace(regex, articleId.toString());
+    return this.http.put<Article>(url, review);
   }
 }

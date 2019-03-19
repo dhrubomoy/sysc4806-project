@@ -14,6 +14,8 @@ import { SubmitterHomeComponent } from './components/home/submitter-home/submitt
 import { httpInterceptorProviders } from './services/auth/auth-interceptor';
 import { EditorHomeComponent } from './components/home/editor-home/editor-home.component';
 import { EditArticleComponent } from './components/home/editor-home/edit-article/edit-article.component';
+import { ReviewerHomeComponent } from './components/home/reviewer-home/reviewer-home.component';
+import { ReviewArticleComponent } from './components/home/reviewer-home/review-article/review-article.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { EditArticleComponent } from './components/home/editor-home/edit-article
     SubmitterHomeComponent,
     EditorHomeComponent,
     EditArticleComponent,
+    ReviewerHomeComponent,
+    ReviewArticleComponent,
   ],
   imports: [
     BrowserModule,

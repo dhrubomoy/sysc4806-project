@@ -8,6 +8,7 @@ export class Article {
     submitter?: Submitter;
     reviewer?: Reviewer;
     reviewDeadline?: string;
+    review?: string;
 }
 
 export class User {
