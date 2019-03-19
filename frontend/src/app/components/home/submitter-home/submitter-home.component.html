@@ -1,12 +1,29 @@
 <ng-template #dialog let-data let-ref="dialogRef">
   <nb-card>
     <nb-card-header>Submit New Article</nb-card-header>
-    <nb-card-body class="exoFont">
+    <nb-card-body class="submitArticleBody">
+      <label><strong>Title:</strong></label>
       <input class="titleInput" type="text" fullWidth nbInput placeholder="Title"
-        [(ngModel)]="articleTitle" #ctrl="ngModel" required>
-      <textarea nbInput fullWidth rows="10" placeholder="Description"
-        [(ngModel)]="articleText" #ctrl="ngModel" required>
-      </textarea>
+        [(ngModel)]="articleTitle" #ctrl="ngModel" required><br>
+      <label><strong>Description:</strong></label><br>
+      <div class="radio-btns">
+        <nb-radio-group [(ngModel)]="submitOption">
+          <nb-radio
+            *ngFor="let o of submitOptions"
+            [value]="o.value">
+            {{ o.label }}
+          </nb-radio>
+        </nb-radio-group>
+      </div>
+      <span *ngIf="submitOption==='text'">
+        <textarea nbInput fullWidth rows="10" placeholder="Description"
+          [(ngModel)]="articleText" #ctrl="ngModel" required>
+        </textarea>
+      </span>
+      <span *ngIf="submitOption==='attachment'">
+        <input nbInput type="file" (change)="onFileChange($event)"><br><br>
+        <div>{{articleText}}</div>
+      </span>
     </nb-card-body>
     <nb-card-footer>
       <div class="offset-md-4 col-md-4">

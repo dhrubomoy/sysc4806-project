@@ -54,9 +54,7 @@ public class ArticleController {
                                           @Valid @RequestBody ReviewerForArticle reviewerInfo) {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new RuntimeException("Could not find Article with id="+articleId));
-        Reviewer reviewer = reviewerRepository.findById(reviewerInfo.getReviewerId())
-                .orElseThrow(() -> new RuntimeException("Could not find Reviewer with id="+reviewerInfo.getReviewerId()));
-        article.setReviewer(reviewer);
+
         SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = new Date();
@@ -66,8 +64,20 @@ public class ArticleController {
             throw new RuntimeException("Error parsing date: " + e.getMessage());
         }
         article.setReviewDeadline(date);
-        article.setReviewStatus(ReviewStatus.IN_REVIEW);
-        reviewer.addAssginedArticles(article);
+
+        // Assign reviewer if article has no reviewer assigned or assigned reviewer is same as the reviewer
+        // in request body (reviewerInfo)
+        if((article.getReviewer() == null)
+                || (article.getReviewer() != null
+                    && (article.getReviewer().getId() != reviewerInfo.getReviewerId()))) {
+            Reviewer reviewer = reviewerRepository.findById(reviewerInfo.getReviewerId())
+                    .orElseThrow(() -> new RuntimeException("Could not find Reviewer with id="
+                            + reviewerInfo.getReviewerId()));
+            article.setReviewer(reviewer);
+            article.setReviewStatus(ReviewStatus.IN_REVIEW);
+            reviewer.addAssginedArticles(article);
+        }
+
         return articleRepository.save(article);
     }
 

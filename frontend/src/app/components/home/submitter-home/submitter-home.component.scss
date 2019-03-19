@@ -1,7 +1,17 @@
-.exoFont {
+.submitArticleBody {
     font-family: 'Exo';
+    min-width: 550px;
+    max-width: 600px;
 }
 
 .titleInput {
-    margin-bottom: 25px;
+    margin: 10px 0px 29px 0px;
+}
+
+nb-radio[_nghost-c10] {
+    display: inline;
+}
+
+.radio-btns {
+    margin: 10px 0px 7px 0px;
 }
