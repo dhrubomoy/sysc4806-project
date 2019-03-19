@@ -13,6 +13,7 @@ import { SubmitterHomeComponent } from './components/home/submitter-home/submitt
 
 import { httpInterceptorProviders } from './services/auth/auth-interceptor';
 import { EditorHomeComponent } from './components/home/editor-home/editor-home.component';
+import { ReviewViewComponent } from './components/home/editor-home/review-view/review-view-component';
 import { EditArticleComponent } from './components/home/editor-home/edit-article/edit-article.component';
 import { ReviewerHomeComponent } from './components/home/reviewer-home/reviewer-home.component';
 import { ReviewArticleComponent } from './components/home/reviewer-home/review-article/review-article.component';
@@ -28,6 +29,10 @@ import { ReviewArticleComponent } from './components/home/reviewer-home/review-a
     EditArticleComponent,
     ReviewerHomeComponent,
     ReviewArticleComponent,
+    ReviewViewComponent,
+  ],
+  entryComponents: [
+    ReviewViewComponent,
   ],
   imports: [
     BrowserModule,

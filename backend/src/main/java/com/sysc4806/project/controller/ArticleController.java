@@ -63,7 +63,7 @@ public class ArticleController {
         try {
             date = formatter.parse(reviewerInfo.getReviewDeadline());
         } catch (Exception e) {
-//            "Error parsing date: " + e.getMessage();
+            throw new RuntimeException("Error parsing date: " + e.getMessage());
         }
         article.setReviewDeadline(date);
         article.setReviewStatus(ReviewStatus.IN_REVIEW);
@@ -78,6 +78,25 @@ public class ArticleController {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new RuntimeException("Could not find Article with id="+articleId));
         article.setReview(review);
+        return articleRepository.save(article);
+    }
+
+    @PutMapping("/api/articles/{id}/setReviewStatus")
+    @PreAuthorize("hasRole('EDITOR')")
+    public Article setReviewStatusForArticle(@PathVariable(value = "id") Long articleId,
+                                 @Valid @RequestBody String reviewStatus) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Could not find Article with id="+articleId));
+        switch (reviewStatus) {
+            case "accepted":
+                article.setReviewStatus(ReviewStatus.ACCEPTED);
+                break;
+            case "rejected":
+                article.setReviewStatus(ReviewStatus.REJECTED);
+                break;
+            default:
+                throw new RuntimeException("Invalid review status: "+reviewStatus);
+        }
         return articleRepository.save(article);
     }
 
