@@ -13,6 +13,11 @@ import { ArticleUtil } from '../../../utils/article-util';
 export class SubmitterHomeComponent implements OnInit {
 
   submittedArticles = [];
+  submitOptions = [
+    { value: 'text', label: 'Text' },
+    { value: 'attachment', label: 'Attachment' },
+  ];
+  submitOption: string = this.submitOptions[0].value;
   private articleTitle: string = '';
   private articleText: string = '';
   private dialogRef: any;
@@ -48,6 +53,15 @@ export class SubmitterHomeComponent implements OnInit {
 
   ngOnInit() {
     this.setSubmittedArticles();
+  }
+
+  onFileChange(event: any) {
+    let file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.articleText = event.target.result;
+    }
+    reader.readAsText(file);
   }
 
   setSubmittedArticles() {
