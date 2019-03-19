@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from './services/auth/token-storage.service';
-import { NB_WINDOW, NbMenuService } from '@nebular/theme';
+import { NbMenuService } from '@nebular/theme';
 import { filter, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
