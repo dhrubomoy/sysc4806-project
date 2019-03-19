@@ -46,6 +46,30 @@ export class EditorHomeComponent implements OnInit {
       reviewDeadline: {
         title: 'Review Deadline',
         type: 'string',
+        compareFunction:(direction: any, a: any, b: any) => {
+          let aTime: number, bTime: number;
+          if(typeof a === 'string') {
+            if(a === 'Not Set') {
+              return direction;
+            } else {
+              aTime = new Date(a).getTime();
+            }
+          }
+          if(typeof b === 'string') {
+            if(b === 'Not Set') {
+              return -1*direction;
+            } else {
+              bTime = new Date(b).getTime();
+            }
+          }
+          if (aTime < bTime) {
+            return -1 * direction;
+           }
+           if (aTime > bTime) {
+             return direction;
+           }
+           return 0;
+        }
       },
       status: {
         title: 'Status',
@@ -62,20 +86,33 @@ export class EditorHomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.updateEditorHome();
+  }
+
+  updateEditorHome() {
     this.setAllArticles();
     this.setReviewers();
+  }
+
+  dlgClosed(ref: any) {
+    ref.close();
+    this.updateEditorHome();
   }
 
   setReviewers() {
     this.userService.getReviewerList().subscribe(
       data => {
         this.reviewers = data;
-        console.log(this.reviewers);
       },
       error => {
         console.log(error);
       }
     );
+  }
+
+  // From 'mm-dd-yyyy' to 'Mon dd, yyyy'
+  getProperDateFormat(deadline: string) {
+    return ArticleUtil.convertDateToAnotherFormat(deadline, 'mm-dd-yyyy', 'Mon dd, yyyy');
   }
 
   setAllArticles() {
@@ -90,7 +127,7 @@ export class EditorHomeComponent implements OnInit {
             text: a.text,
             submitter: a.submitter.username,
             reviewer: a.reviewer && a.reviewer.username? a.reviewer.username : 'Not Set',
-            reviewDeadline: a.reviewDeadline? a.reviewDeadline : 'Not Set',
+            reviewDeadline: a.reviewDeadline? this.getProperDateFormat(a.reviewDeadline) : 'Not Set',
             status: ArticleUtil.getReviewStatus(a.reviewStatus),
           }
         });

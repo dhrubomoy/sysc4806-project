@@ -6,11 +6,11 @@
     <div><strong>Description:</strong> {{ article.text }}</div><br><br>
     <div>
       <strong>Reviewer:</strong>
-      <nb-select status="primary"  
-          [(ngModel)]="currentReviewerId" class="reviewer-nb-select">
+      <nb-select status="primary" placeholder="Select..."
+          [(ngModel)]="currentReviewerUsername" class="reviewer-nb-select">
         <nb-option *ngFor="let reviewer of reviewers"
           class="reviewer-nb-option"
-          value="{{reviewer.id}}">
+          value="{{reviewer.username}}">
           {{reviewer.username}}
         </nb-option>
       </nb-select>
@@ -18,7 +18,7 @@
     </div><br><br>
     <div>
       <strong>Set Review Deadline:</strong><br>
-      <input class="date-picker-input" nbInput placeholder="Form Picker" fullWidth [nbDatepicker]="formpicker" [(ngModel)]="reviewDeadline">
+      <input class="date-picker-input" nbInput placeholder="Form Picker" fullWidth [nbDatepicker]="formpicker" [(ngModel)]="reviewDeadline" >
       <nb-datepicker #formpicker></nb-datepicker>
       <div *ngIf="reviewDeadlineError">{{reviewDeadlineError}}</div>
     </div>

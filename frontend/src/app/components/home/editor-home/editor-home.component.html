@@ -15,6 +15,7 @@
   <edit-article
     [article]=data.selectedArticle
     [allArticles]=data.allArticles
-    [reviewers]="reviewers">
+    [reviewers]="reviewers"
+    (onDlgClose)="dlgClosed(ref)">
   </edit-article>
 </ng-template>

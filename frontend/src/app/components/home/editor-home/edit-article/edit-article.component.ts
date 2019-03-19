@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Article, Reviewer, ReviewerInfo } from 'src/app/services/types';
 import { ArticleService } from 'src/app/services/article.service';
+import { ArticleUtil } from 'src/app/utils/article-util';
 
 @Component({
   selector: 'edit-article',
@@ -13,7 +14,9 @@ export class EditArticleComponent implements OnInit {
   @Input() allArticles: Article;
   @Input() reviewers: Reviewer[];
 
-  currentReviewerId: number;
+  @Output() onDlgClose = new EventEmitter();
+
+  currentReviewerUsername: String;
   reviewDeadline: Date;
   reviewerInputError: String;
   reviewDeadlineError: String;
@@ -22,12 +25,16 @@ export class EditArticleComponent implements OnInit {
 
   ngOnInit() {
     if(this.article.reviewer) {
-      this.currentReviewerId = this.article.reviewer.id;
+      this.currentReviewerUsername = this.article.reviewer.username;
+    }
+    if(this.article.reviewDeadline) {
+      let dateStr = ArticleUtil.convertDateToAnotherFormat(this.article.reviewDeadline, 'mm-dd-yyyy', 'Mon dd, yyyy')
+      this.reviewDeadline = new Date(dateStr);
     }
   }
 
   handleErrors() {
-    if(!this.currentReviewerId) {
+    if(!this.currentReviewerUsername) {
       this.reviewerInputError = 'You must choose a reviewer';
       return;
     } else {
@@ -44,15 +51,14 @@ export class EditArticleComponent implements OnInit {
   }
 
   updateArticle() {
-    console.log(this.currentReviewerId, this.reviewDeadline);
     this.handleErrors();
-    console.log('works');
-    let date = this.reviewDeadline.getDate()+'/'+ this.reviewDeadline.getMonth()+1 +'/'
-      + this.reviewDeadline.getFullYear();
-    let reviewerInfo = new ReviewerInfo(this.currentReviewerId, date)
+    let date = ArticleUtil.getDateInFormat(this.reviewDeadline, 'dd/mm/yyyy');
+    let currentReviewerId = this.reviewers.find(r => r.username === this.currentReviewerUsername).id;
+    let reviewerInfo = new ReviewerInfo(currentReviewerId, date);
     this.articleService.setReviewerForArticle(reviewerInfo, this.article.id).subscribe(
       data => {
         console.log(data);
+        this.onDlgClose.emit();
       },
       error => {
         console.log(error);
