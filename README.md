@@ -15,6 +15,7 @@ Article Submitter submits Article (some attachment, any format is ok). The Edito
 
 #### Plan for next spring
 - Review should be visible to submitter
+- Editor can view articles whose reviews are overdue
 
 ### Diagrams
 
