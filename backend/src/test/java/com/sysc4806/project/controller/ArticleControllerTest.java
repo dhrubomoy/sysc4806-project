@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.hamcrest.core.StringContains;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -44,41 +45,62 @@ public class ArticleControllerTest {
     @WithMockUser(username="submitter1", password="123456", roles={"SUBMITTER"})
     public void submitterShouldCreateArticle() throws Exception {
         String jsonArticle = "{\"title\": \"Title of new article\", \"text\": \"Text of new article\"}";
-        String expected = "{\"id\":7,\"title\":\"Title of new article\",\"text\":\"Text of new article\",\"submitter\":{\"id\":1,\"name\":\"Vesta Nichols\",\"username\":\"submitter1\",\"role\":\"ROLE_SUBMITTER\"},\"reviewDeadline\":null,\"reviewStatus\":\"SUBMITTED\",\"reviewer\":null,\"review\":null}";
         mvc.perform(post("/api/submitter/articles/create")
                 .content(jsonArticle)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expected));
+                .andExpect(content().string(StringContains.containsString("\"title\":\"Title of new article\"")))
+                .andExpect(content().string(StringContains.containsString("\"text\":\"Text of new article\"")));
     }
 
     @Test
     @WithMockUser(username="editor1", password="123456", roles={"EDITOR"})
     public void editorShouldSetReviewerAndAssignDeadline() throws Exception {
         String params = "{\"reviewerId\": \"3\", \"reviewDeadline\": \"22/11/2019\"}";
-        String expected = "{\"id\":1,\"title\":\"Title Article 1\",\"text\":\"Text Article 1 by submitter1\",\"submitter\":{\"id\":1,\"name\":\"Vesta Nichols\",\"username\":\"submitter1\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":\"22-11-2019 12:00:00\",\"reviewStatus\":\"IN_REVIEW\",\"reviewer\":{\"id\":3,\"name\":\"Margie Parrott\",\"username\":\"reviewer1\",\"role\":\"ROLE_REVIEWER\"},\"review\":null}";
         mvc.perform(put("/api/articles/1/setReviewInfo")
                 .content(params)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expected));
+                .andExpect(content().string(StringContains.containsString("\"reviewDeadline\":\"22-11-2019 12:00:00\"")))
+                .andExpect(content().string(StringContains.containsString("\"reviewer\":{\"id\":3")));
     }
 
     @Test
     @WithMockUser(username="editor1", password="123456", roles={"EDITOR"})
     public void getAllArticlesForEditor_shouldSucceedWith200() throws Exception {
-        String content = "[{\"id\":1,\"title\":\"Title Article 1\",\"text\":\"Text Article 1 by submitter1\",\"submitter\":{\"id\":1,\"name\":\"Vesta Nichols\",\"username\":\"submitter1\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":\"22-11-2019 12:00:00\",\"reviewStatus\":\"IN_REVIEW\",\"reviewer\":{\"id\":3,\"name\":\"Margie Parrott\",\"username\":\"reviewer1\",\"role\":\"ROLE_REVIEWER\",\"hibernateLazyInitializer\":{}},\"review\":null},{\"id\":2,\"title\":\"Title Article 1\",\"text\":\"Text Article 1 by submitter1\",\"submitter\":{\"id\":1,\"name\":\"Vesta Nichols\",\"username\":\"submitter1\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":null,\"reviewStatus\":\"SUBMITTED\",\"reviewer\":null,\"review\":null},{\"id\":3,\"title\":\"Title Article 2\",\"text\":\"Text Article 2 By submitter1\",\"submitter\":{\"id\":1,\"name\":\"Vesta Nichols\",\"username\":\"submitter1\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":null,\"reviewStatus\":\"SUBMITTED\",\"reviewer\":null,\"review\":null},{\"id\":4,\"title\":\"Title Article 1\",\"text\":\"Text Article 1 by submitter2\",\"submitter\":{\"id\":2,\"name\":\"Thomas Mathews\",\"username\":\"submitter2\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":null,\"reviewStatus\":\"SUBMITTED\",\"reviewer\":null,\"review\":null},{\"id\":5,\"title\":\"Title Article 1\",\"text\":\"Text Article 1 by submitter2\",\"submitter\":{\"id\":2,\"name\":\"Thomas Mathews\",\"username\":\"submitter2\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":null,\"reviewStatus\":\"SUBMITTED\",\"reviewer\":null,\"review\":null},{\"id\":6,\"title\":\"Title Article 2\",\"text\":\"Text Article 2 By submitter2\",\"submitter\":{\"id\":2,\"name\":\"Thomas Mathews\",\"username\":\"submitter2\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":null,\"reviewStatus\":\"SUBMITTED\",\"reviewer\":null,\"review\":null},{\"id\":7,\"title\":\"Title of new article\",\"text\":\"Text of new article\",\"submitter\":{\"id\":1,\"name\":\"Vesta Nichols\",\"username\":\"submitter1\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":null,\"reviewStatus\":\"SUBMITTED\",\"reviewer\":null,\"review\":null}]";
         mvc.perform(get("/api/articles").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(content));
+                .andExpect(content().string(StringContains.containsString("\"title\":\"Title Article 1\"")))
+                .andExpect(content().string(StringContains.containsString("\"title\":\"Title Article 2\"")));
     }
 
     @Test
     @WithMockUser(username="reviewer1", password="123456", roles={"REVIEWER"})
     public void getArticlesForReviewer_shouldSucceedWith200() throws Exception {
-        String content = "[{\"id\":1,\"title\":\"Title Article 1\",\"text\":\"Text Article 1 by submitter1\",\"submitter\":{\"id\":1,\"name\":\"Vesta Nichols\",\"username\":\"submitter1\",\"role\":\"ROLE_SUBMITTER\",\"hibernateLazyInitializer\":{}},\"reviewDeadline\":\"22-11-2019 12:00:00\",\"reviewStatus\":\"IN_REVIEW\",\"reviewer\":{\"id\":3,\"name\":\"Margie Parrott\",\"username\":\"reviewer1\",\"role\":\"ROLE_REVIEWER\"},\"review\":null}]";
         mvc.perform(get("/api/reviewer/articles").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(content));
+                .andExpect(content().string(StringContains.containsString("\"id\":1,\"title\":\"Title Article 1\"")));
+    }
+
+
+    // Issue# 21
+    @Test
+    @WithMockUser(username="editor1", password="123456", roles={"EDITOR"})
+    public void assignArticleToDifferentReviewerShouldWork() throws Exception {
+        String params = "{\"reviewerId\": \"3\", \"reviewDeadline\": \"22/11/2019\"}";
+        mvc.perform(put("/api/articles/2/setReviewInfo")
+                .content(params)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(StringContains.containsString("\"reviewDeadline\":\"22-11-2019 12:00:00\"")))
+                .andExpect(content().string(StringContains.containsString("\"reviewer\":{\"id\":3")));
+        // Assign a different reviewer
+        params = "{\"reviewerId\": \"4\", \"reviewDeadline\": \"29/11/2019\"}";
+        mvc.perform(put("/api/articles/2/setReviewInfo")
+                .content(params)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(StringContains.containsString("\"reviewDeadline\":\"29-11-2019 12:00:00\"")))
+                .andExpect(content().string(StringContains.containsString("\"reviewer\":{\"id\":4")));
     }
 }
