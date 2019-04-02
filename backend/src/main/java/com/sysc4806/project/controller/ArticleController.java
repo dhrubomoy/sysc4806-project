@@ -54,7 +54,6 @@ public class ArticleController {
                                           @Valid @RequestBody ReviewerForArticle reviewerInfo) {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new RuntimeException("Could not find Article with id="+articleId));
-
         SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = new Date();
@@ -64,21 +63,27 @@ public class ArticleController {
             throw new RuntimeException("Error parsing date: " + e.getMessage());
         }
         article.setReviewDeadline(date);
-
-        // Assign reviewer if article has no reviewer assigned or assigned reviewer is same as the reviewer
-        // in request body (reviewerInfo)
-        if((article.getReviewer() == null)
-                || (article.getReviewer() != null
-                    && (article.getReviewer().getId() != reviewerInfo.getReviewerId()))) {
-            Reviewer reviewer = reviewerRepository.findById(reviewerInfo.getReviewerId())
-                    .orElseThrow(() -> new RuntimeException("Could not find Reviewer with id="
-                            + reviewerInfo.getReviewerId()));
-            article.setReviewer(reviewer);
-            article.setReviewStatus(ReviewStatus.IN_REVIEW);
-            reviewer.addAssginedArticles(article);
+        // Assign reviewer if article was previously assigned but this time assigning to a
+        // different reviewer
+        if((article.getReviewer() != null
+                && (article.getReviewer().getId() != reviewerInfo.getReviewerId()))) {
+            article.getReviewer().removeAssignedArticles(article);
+            assignReviewer(reviewerInfo, article);
         }
-
+        // Assign reviewer if article was never assigned
+        if((article.getReviewer() == null)) {
+            assignReviewer(reviewerInfo, article);
+            article.setReviewStatus(ReviewStatus.IN_REVIEW);
+        }
         return articleRepository.save(article);
+    }
+
+    private void assignReviewer(@RequestBody @Valid ReviewerForArticle reviewerInfo, Article article) {
+        Reviewer reviewer = reviewerRepository.findById(reviewerInfo.getReviewerId())
+                .orElseThrow(() -> new RuntimeException("Could not find Reviewer with id="
+                        + reviewerInfo.getReviewerId()));
+        article.setReviewer(reviewer);
+        reviewer.addAssginedArticles(article);
     }
 
     @PutMapping("/api/articles/{id}/setReview")

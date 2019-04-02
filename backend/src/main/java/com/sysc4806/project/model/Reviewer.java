@@ -32,4 +32,8 @@ public class Reviewer extends User {
     public void addAssginedArticles(Article article) {
         this.assignedArticles.add(article);
     }
+
+    public void removeAssignedArticles(Article article) {
+        this.assignedArticles.remove(article);
+    }
 }
