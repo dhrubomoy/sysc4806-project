@@ -10,9 +10,8 @@
         <strong>Title: </strong> {{ value.title }}<br><br>
         <strong>Description: </strong> {{ value.text }}
         <div *ngIf="value.review">
-            <br><br>
-            <strong>Review: </strong><br>
-            <div>{{ value.reivew }}</div>
+            <br>
+            <strong>Review: </strong> {{ value.review }}
         </div>
     </nb-card-body>
     <nb-card-footer>
