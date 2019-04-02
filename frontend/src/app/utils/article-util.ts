@@ -11,8 +11,8 @@ export class ArticleUtil {
         return {
             type: 'list',
             config: {
-            selectText: 'Select...',
-            list: statusList,
+                selectText: 'Select...',
+                list: statusList,
             },
         };
     }
@@ -46,7 +46,7 @@ export class ArticleUtil {
         return monthNames[num-1].substr(0, 3);
     }
 
-    static convertDateToAnotherFormat(dateString: string, from: string, to: string) {
+    static convertDateToAnotherFormat(dateString: string, from: string, to: string): string {
         let splitString = [];
         let resultString = '';
         switch(from) {

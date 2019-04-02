@@ -29,6 +29,10 @@ export class EditorHomeComponent implements OnInit {
 
   ngOnInit() {
     this.updateEditorHome();
+    this.updateSettings();
+  }
+
+  updateSettings() {
     let _this = this;
     this.settings = {
       mode: 'external',
@@ -95,6 +99,17 @@ export class EditorHomeComponent implements OnInit {
              return 0;
           }
         },
+        overdue: {
+          title: 'Overdue',
+          filter: {
+            type: 'checkbox',
+            config: {
+              true: 'Yes',
+              false: 'No',
+              resetText: 'clear',
+            },
+          },
+        },
         status: {
           title: 'Status',
           type: 'string',
@@ -126,14 +141,13 @@ export class EditorHomeComponent implements OnInit {
   }
 
   // From 'mm-dd-yyyy' to 'Mon dd, yyyy'
-  getProperDateFormat(deadline: string) {
+  getProperDateFormat(deadline: string): string {
     return ArticleUtil.convertDateToAnotherFormat(deadline, 'mm-dd-yyyy', 'Mon dd, yyyy');
   }
 
   setAllArticles() {
     this.articleService.getAllArticles().subscribe(
       data => {
-        console.log(data);
         this.articles = data;
         this.articlesData = this.articles.map(a => {
           return {
@@ -144,6 +158,7 @@ export class EditorHomeComponent implements OnInit {
             submitter: a.submitter.username,
             reviewer: a.reviewer && a.reviewer.username? a.reviewer.username : 'Not Set',
             reviewDeadline: a.reviewDeadline? this.getProperDateFormat(a.reviewDeadline) : 'Not Set',
+            overdue: a.reviewDeadline? this.getOverdueStatus(a.reviewDeadline) : 'No',
             status: ArticleUtil.getReviewStatus(a.reviewStatus),
           }
         });
@@ -156,10 +171,18 @@ export class EditorHomeComponent implements OnInit {
     );
   }
 
+  getOverdueStatus(deadline: string): string {
+    let deadlineTime: number = new Date(this.getProperDateFormat(deadline)).getTime();
+    let timeNow: number = new Date().getTime();
+    if(deadlineTime-timeNow >= 0) {
+      return 'No';
+    } else {
+      return 'Yes'
+    }
+  }
+
   onEditClick(event: any, dialog: TemplateRef<any>) {
     let selectedArticle: Article = this.articles.find(a => a.id===event.data.id);
-    console.log('event', event);
-    console.log('selectedArticle', selectedArticle);
     this.dialogService.open(dialog, { context: {
       selectedArticle: selectedArticle,
       allArticles: this.articles,
