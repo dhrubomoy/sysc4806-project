@@ -8,7 +8,7 @@ import { ArticleService } from 'src/app/services/article.service';
 
 @Component({
   selector: 'button-view',
-  templateUrl: './review-view-component.html',
+  templateUrl: './review-view.component.html',
   styleUrls: ['./review-view.component.scss']
 })
 export class ReviewViewComponent implements ViewCell, OnInit {
