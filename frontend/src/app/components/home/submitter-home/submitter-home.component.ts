@@ -4,6 +4,7 @@ import { ArticleService } from '../../../services/article.service';
 import { Article } from '../../../services/types';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ArticleUtil } from '../../../utils/article-util';
+import { ViewDetailsComponent } from './view-details/view-details.component'
 
 @Component({
   selector: 'submitter-home',
@@ -21,28 +22,7 @@ export class SubmitterHomeComponent implements OnInit {
   private articleTitle: string = '';
   private articleText: string = '';
   private dialogRef: any;
-  private settings = {
-    actions: {
-      add: false,
-      edit: false,
-      delete: false,
-    },
-    columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
-      title: {
-        title: 'Title',
-        type: 'string',
-      },
-      status: {
-        title: 'Status',
-        type: 'string',
-        filter: {},
-      },
-    },
-  };
+  private settings: any;
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -53,6 +33,34 @@ export class SubmitterHomeComponent implements OnInit {
 
   ngOnInit() {
     this.setSubmittedArticles();
+    this.settings = {
+      actions: {
+        add: false,
+        edit: false,
+        delete: false,
+      },
+      columns: {
+        viewDetails: {
+          title: 'Details',
+          filter: false,
+          type: 'custom',
+          renderComponent: ViewDetailsComponent,
+        },
+        id: {
+          title: 'ID',
+          type: 'number',
+        },
+        title: {
+          title: 'Title',
+          type: 'string',
+        },
+        status: {
+          title: 'Status',
+          type: 'string',
+          filter: {},
+        },
+      },
+    };
   }
 
   onFileChange(event: any) {
@@ -70,9 +78,9 @@ export class SubmitterHomeComponent implements OnInit {
         let articles: Article[] = data;
         this.submittedArticles = articles.map(a => {
           return {
+            viewDetails: a,
             id: a.id,
             title: a.title,
-            text: a.text,
             status: ArticleUtil.getReviewStatus(a.reviewStatus)
           }
         });
@@ -99,9 +107,9 @@ export class SubmitterHomeComponent implements OnInit {
         let article: Article = data;
         console.log(data);
         this.submittedArticles.push({
+          viewDetails: article,
           id: article.id,
           title: article.title,
-          text: article.text,
           status: ArticleUtil.getReviewStatus(article.reviewStatus)
         });
         this.source.load(this.submittedArticles);

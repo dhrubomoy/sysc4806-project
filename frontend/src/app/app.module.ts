@@ -13,10 +13,11 @@ import { SubmitterHomeComponent } from './components/home/submitter-home/submitt
 
 import { httpInterceptorProviders } from './services/auth/auth-interceptor';
 import { EditorHomeComponent } from './components/home/editor-home/editor-home.component';
-import { ReviewViewComponent } from './components/home/editor-home/review-view/review-view-component';
+import { ReviewViewComponent } from './components/home/editor-home/review-view/review-view.component';
 import { EditArticleComponent } from './components/home/editor-home/edit-article/edit-article.component';
 import { ReviewerHomeComponent } from './components/home/reviewer-home/reviewer-home.component';
 import { ReviewArticleComponent } from './components/home/reviewer-home/review-article/review-article.component';
+import { ViewDetailsComponent } from './components/home/submitter-home/view-details/view-details.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,11 @@ import { ReviewArticleComponent } from './components/home/reviewer-home/review-a
     ReviewerHomeComponent,
     ReviewArticleComponent,
     ReviewViewComponent,
+    ViewDetailsComponent,
   ],
   entryComponents: [
     ReviewViewComponent,
+    ViewDetailsComponent,
   ],
   imports: [
     BrowserModule,

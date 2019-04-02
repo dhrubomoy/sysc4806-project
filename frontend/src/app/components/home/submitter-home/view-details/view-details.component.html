@@ -1,0 +1,22 @@
+<button nbButton shape="round" [disabled]="!value"
+    size="small" status="info" (click)="open(dialog)">
+    Details
+</button>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card>
+    <nb-card-header>Article Details</nb-card-header>
+    <nb-card-body class="review-view-body">
+        <strong>Title: </strong> {{ value.title }}<br><br>
+        <strong>Description: </strong> {{ value.text }}
+        <div *ngIf="value.review">
+            <br><br>
+            <strong>Review: </strong><br>
+            <div>{{ value.reivew }}</div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+    </nb-card-footer>
+    </nb-card>
+</ng-template>

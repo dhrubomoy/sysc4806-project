@@ -5,7 +5,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { ArticleUtil } from '../../../utils/article-util';
 import { NbDialogService } from '@nebular/theme';
 import { UserService } from 'src/app/services/user.service';
-import { ReviewViewComponent } from './review-view/review-view-component';
+import { ReviewViewComponent } from './review-view/review-view.component';
 
 
 @Component({
