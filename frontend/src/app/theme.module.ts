@@ -87,9 +87,7 @@ const NB_THEME_PROVIDERS = [
   ...NbDialogModule.forRoot().providers,
   ...NbWindowModule.forRoot().providers,
   ...NbToastrModule.forRoot().providers,
-  ...NbChatModule.forRoot({
-    messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
-  }).providers,
+  ...NbChatModule.forRoot().providers,
 ];
 
 @NgModule({
